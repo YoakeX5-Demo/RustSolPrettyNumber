@@ -1,7 +1,6 @@
 use base58::ToBase58;
 use rayon::prelude::*;
 use solana_sdk::signature::{Keypair, Signer};
-use std::time::Instant;
 
 fn find_keypair_with_prefix( num_threads: usize) -> Option<[u8; 64]> {
     // 并行计算，使用 rayon 库创建 num_threads 个线程
@@ -22,25 +21,14 @@ fn find_keypair_with_prefix( num_threads: usize) -> Option<[u8; 64]> {
             }
         }
     });
-
     result
 }
 
 fn main() {
-    let prefix = "88888"; // 你想要公钥的前缀
     let num_threads = 32; // 使用32个线程来并行计算
-
-    let start_time = Instant::now(); // 记录开始时间
-
     match find_keypair_with_prefix( num_threads) {
         Some(private_key) => {
-            let elapsed = start_time.elapsed();
-            let p = private_key.to_base58();
-            println!(
-                "Found private key with public key starting with '{}': {:?}",
-                prefix, p
-            );
-            println!("Total time elapsed: {:.2}s", elapsed.as_secs_f64());
+            println!("Found matching keypair: {}", private_key.to_base58());
         }
         None => {
             println!("No matching keypair found.");
