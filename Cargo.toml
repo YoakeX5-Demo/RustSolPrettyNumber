@@ -1,0 +1,13 @@
+[package]
+name = "RustSolPrettyNumber"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+rayon = "1.5.2"
+solana-sdk = "2.1.8"  # 使用 solana-sdk 库
+base58 = "0.2.0"
+[profile.release]
+opt-level = 3  # 优化级别，0-3，3是最高级别的优化
+lto = true    # 启用链接时间优化
+codegen-units = 1  # 减少代码生成单元以优化最终二进制文件
